@@ -1,4 +1,4 @@
-package org.tujhex.dottestapp.navigation
+package org.tujhex.navigation
 
 import androidx.fragment.app.FragmentManager
 
@@ -30,6 +30,7 @@ interface Navigator {
                 .beginTransaction()
                 .replace(containerId, screen.target())
                 .addToBackStack(screen.key())
+                .commit()
         }
     }
 }

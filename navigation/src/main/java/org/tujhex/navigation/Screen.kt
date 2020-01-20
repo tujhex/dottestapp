@@ -1,4 +1,4 @@
-package org.tujhex.dottestapp.navigation
+package org.tujhex.navigation
 
 import androidx.fragment.app.Fragment
 

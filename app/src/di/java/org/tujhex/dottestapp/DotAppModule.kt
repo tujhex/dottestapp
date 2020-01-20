@@ -1,8 +1,11 @@
 package org.tujhex.dottestapp
 
+import dagger.Module
+
+
 /**
  * @author tujhex
  * since 21.01.20
  */
-class MainComponent {
-}
+@Module
+abstract class DotAppModule {}
