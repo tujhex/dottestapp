@@ -4,6 +4,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/home/tujhex/AndroidStudioProjects/release-keystore.jks')
+            storePassword 'mkcb422w6h'
+            keyAlias = 'key0'
+            keyPassword 'mkcb422w6h'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -13,6 +21,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

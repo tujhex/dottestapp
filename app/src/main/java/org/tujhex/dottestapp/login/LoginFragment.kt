@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.auth.VKScope
+import kotlinx.android.synthetic.main.fragment_login.*
 import org.tujhex.dottestapp.R
 import org.tujhex.dottestapp.main.MainActivity
 
@@ -21,6 +24,17 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        login_button.setOnClickListener { login() }
+    }
+
+    private fun login() {
+        activity?.let {
+            VK.login(it, arrayListOf(VKScope.WALL))
+        }
     }
 
     override fun onAttach(context: Context) {

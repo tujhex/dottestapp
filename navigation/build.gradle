@@ -2,6 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 android {
+    signingConfigs {
+        release {
+            storeFile file('/home/tujhex/AndroidStudioProjects/release-keystore.jks')
+            storePassword 'mkcb422w6h'
+            keyAlias = 'key0'
+            keyPassword 'mkcb422w6h'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
@@ -14,6 +22,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
