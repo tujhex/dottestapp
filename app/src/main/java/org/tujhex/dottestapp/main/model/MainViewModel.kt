@@ -9,7 +9,9 @@ import org.tujhex.navigation.Navigator
  * @author tujhex
  * since 26.01.20
  */
-class MainViewModel(private val navigator: Navigator) : ViewModel() {
+class MainViewModel(
+    private val navigator: Navigator
+) : ViewModel() {
 
     fun goToLogin() {
         navigator.navigate(

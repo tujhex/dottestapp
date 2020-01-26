@@ -1,6 +1,7 @@
-package org.tujhex.dottestapp.core.data.vk
+package org.tujhex.dottestapp.core.data.cache.vk
 
 import com.vk.api.sdk.auth.VKAccessToken
+import org.tujhex.dottestapp.core.data.cache.CacheStorage
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
@@ -9,21 +10,19 @@ import kotlin.concurrent.write
  * @author tujhex
  * since 26.01.20
  */
-interface VkTokenCacheStorage {
-    fun store(vkAccessToken: VKAccessToken)
-    fun fetch(): VKAccessToken?
+interface VkTokenCacheStorage : CacheStorage<VKAccessToken> {
 
     class Impl : VkTokenCacheStorage {
         private val lock = ReentrantReadWriteLock()
-        private var token: VKAccessToken? = null
+        private var tokenCache: VKAccessToken? = null
 
-        override fun store(vkAccessToken: VKAccessToken) {
-            lock.write { token = vkAccessToken }
+        override fun store(data: VKAccessToken) {
+            lock.write { tokenCache = data }
         }
 
         override fun fetch(): VKAccessToken? {
-            return lock.read { token }
+            return lock.read { tokenCache }
         }
-
     }
+
 }

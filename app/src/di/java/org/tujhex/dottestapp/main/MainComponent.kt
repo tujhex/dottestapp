@@ -2,7 +2,7 @@ package org.tujhex.dottestapp.main
 
 import dagger.Subcomponent
 import org.tujhex.dottestapp.core.DiComponent
-import org.tujhex.dottestapp.core.cases.vk.VkUseCaseModule
+import org.tujhex.dottestapp.domain.vk.VkUseCaseModule
 import org.tujhex.dottestapp.login.LoginComponent
 
 

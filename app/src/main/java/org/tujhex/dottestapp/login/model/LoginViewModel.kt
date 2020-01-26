@@ -5,11 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAuthCallback
 import io.reactivex.disposables.CompositeDisposable
-import org.tujhex.dottestapp.core.MessageUtils
-import org.tujhex.dottestapp.core.cases.vk.StoreVkTokenUseCase
-import org.tujhex.dottestapp.core.vk.VkAuthCallbackImpl
+import org.tujhex.dottestapp.core.spec.vk.VkAuthCallbackFactory
 import org.tujhex.dottestapp.login.navigation.VkLoginRouter
-import org.tujhex.navigation.Navigator
 
 /**
  * @author tujhex
@@ -17,14 +14,11 @@ import org.tujhex.navigation.Navigator
  */
 class LoginViewModel(
     private val vkLoginRouter: VkLoginRouter,
-    navigator: Navigator,
-    messageUtils: MessageUtils,
-    storeVkTokenUseCase: StoreVkTokenUseCase
+    callbackFactory: VkAuthCallbackFactory
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
-    private val callback: VKAuthCallback =
-        VkAuthCallbackImpl(messageUtils, navigator, storeVkTokenUseCase, compositeDisposable)
+    private val callback: VKAuthCallback = callbackFactory.create(compositeDisposable)
 
     override fun onCleared() {
         super.onCleared()

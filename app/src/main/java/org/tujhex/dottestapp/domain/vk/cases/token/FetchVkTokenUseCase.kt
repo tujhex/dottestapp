@@ -1,9 +1,9 @@
-package org.tujhex.dottestapp.core.cases.vk
+package org.tujhex.dottestapp.domain.vk.cases.token
 
 import com.vk.api.sdk.auth.VKAccessToken
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import org.tujhex.dottestapp.core.data.vk.VkTokenCacheStorage
+import org.tujhex.dottestapp.core.data.cache.CacheStorage
 
 /**
  * @author tujhex
@@ -12,7 +12,8 @@ import org.tujhex.dottestapp.core.data.vk.VkTokenCacheStorage
 interface FetchVkTokenUseCase {
     fun fetchToken(): Single<VKAccessToken>
 
-    class Impl(private val vkTokenCacheStorage: VkTokenCacheStorage) : FetchVkTokenUseCase {
+    class Impl(private val vkTokenCacheStorage: CacheStorage<VKAccessToken>) :
+        FetchVkTokenUseCase {
         override fun fetchToken(): Single<VKAccessToken> {
             return Single.fromCallable {
                 vkTokenCacheStorage.fetch()
