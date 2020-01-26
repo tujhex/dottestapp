@@ -1,6 +1,10 @@
 package org.tujhex.dottestapp
 
+import android.content.Context
 import dagger.Module
+import dagger.Provides
+import org.tujhex.dottestapp.core.MessageUtils
+import javax.inject.Singleton
 
 
 /**
@@ -8,4 +12,12 @@ import dagger.Module
  * since 21.01.20
  */
 @Module
-abstract class DotAppModule
+class DotAppModule(private val context: Context) {
+
+    @Provides
+    @Singleton
+    fun provideMessageUtils(): MessageUtils {
+        return MessageUtils.Impl(context)
+    }
+
+}

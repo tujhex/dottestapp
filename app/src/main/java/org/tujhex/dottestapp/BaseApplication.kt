@@ -14,7 +14,10 @@ class BaseApplication : Application(), HasDiComponent<DotAppComponent> {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerDotAppComponent.create()
+        appComponent = DaggerDotAppComponent
+            .builder()
+            .dotAppModule(DotAppModule(this))
+            .build()
 
     }
 }

@@ -2,6 +2,8 @@ package org.tujhex.dottestapp.main
 
 import dagger.Module
 import dagger.Provides
+import org.tujhex.dottestapp.core.MessageUtils
+import org.tujhex.dottestapp.core.cases.vk.StoreVkTokenUseCase
 import org.tujhex.dottestapp.login.model.LoginProviderFactory
 import org.tujhex.dottestapp.login.navigation.VkLoginRouter
 import org.tujhex.dottestapp.main.model.MainProviderFactory
@@ -26,7 +28,12 @@ class MainModule {
 
     @MainScope
     @Provides
-    fun provideLoginProviderFactory(vkLoginRouter: VkLoginRouter): LoginProviderFactory {
-        return LoginProviderFactory(vkLoginRouter)
+    fun provideLoginProviderFactory(
+        vkLoginRouter: VkLoginRouter,
+        messageUtils: MessageUtils,
+        navigator: Navigator,
+        storeVkTokenUseCase: StoreVkTokenUseCase
+    ): LoginProviderFactory {
+        return LoginProviderFactory(vkLoginRouter, messageUtils, navigator, storeVkTokenUseCase)
     }
 }

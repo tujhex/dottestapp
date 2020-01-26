@@ -2,4 +2,5 @@
     <string name="app_name">DotTestApp</string>
     <string name="login_button">Sign in by VK</string>
     <string name="greet_text">Hi! This is test app for Dot bnk!\nSign in to continue</string>
+    <string name="vk_auth_error">Sign in by VK failed!</string>
 </resources>
