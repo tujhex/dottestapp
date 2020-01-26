@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.app_bar.*
 import org.tujhex.dottestapp.R
 import org.tujhex.dottestapp.core.HasDiComponent
+import org.tujhex.dottestapp.core.ui.HasChangeableToolbar
+import org.tujhex.dottestapp.core.ui.HasDrawer
 import org.tujhex.dottestapp.databinding.FragmentLoginBinding
 import org.tujhex.dottestapp.login.model.LoginProviderFactory
 import org.tujhex.dottestapp.login.model.LoginViewModel
@@ -53,18 +54,18 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.let {
-            vkLoginRouter.attach(activity!!)
-            binding.model = ViewModelProvider(activity!!, loginFactory)[LoginViewModel::class.java]
+        setHasOptionsMenu(true)
+        activity?.let { activity ->
+            vkLoginRouter.attach(activity)
+            binding.model = ViewModelProvider(activity, loginFactory)[LoginViewModel::class.java]
             binding.lifecycleOwner = this
-            if (it is AppCompatActivity) {
-                it.setSupportActionBar(toolbar)
-                it.supportActionBar?.apply {
-                    setDisplayHomeAsUpEnabled(true)
-                    setDisplayShowHomeEnabled(true)
-                    setHomeButtonEnabled(true)
-                }
+            if (activity is HasDrawer) {
+                activity.lockDrawer()
             }
+            if (activity is HasChangeableToolbar) {
+                activity.setupAppBar(toolbar)
+            }
+
         }
     }
 
