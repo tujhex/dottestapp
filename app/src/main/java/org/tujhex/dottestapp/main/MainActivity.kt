@@ -2,8 +2,11 @@ package org.tujhex.dottestapp.main
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.android.synthetic.main.activity_main.*
 import org.tujhex.dottestapp.DotAppComponent
 import org.tujhex.dottestapp.R
 import org.tujhex.dottestapp.core.HasDiComponent
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity(), HasDiComponent<MainComponent> {
     lateinit var loginFactory: LoginProviderFactory
 
     private lateinit var mainComponent: MainComponent
+    lateinit var toggle: ActionBarDrawerToggle
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +48,24 @@ class MainActivity : AppCompatActivity(), HasDiComponent<MainComponent> {
             )
         mainComponent.inject(this)
         ViewModelProvider(this, factory)[MainViewModel::class.java].goToLogin()
+        toggle = ActionBarDrawerToggle(
+            this,
+            drawer,
+            R.string.open_drawer_description,
+            R.string.close_drawer_description
+        )
+//        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        toggle.isDrawerIndicatorEnabled = true
+        toggle.syncState()
+        drawer.addDrawerListener(toggle)
+    }
 
+    override fun onBackPressed() {
+        if (supportFragmentManager.fragments.size > 1) {
+            super.onBackPressed()
+        } else {
+            finish()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -54,7 +75,7 @@ class MainActivity : AppCompatActivity(), HasDiComponent<MainComponent> {
                 resultCode,
                 data
             )
-        if (!isHandled){
+        if (!isHandled) {
             super.onActivityResult(requestCode, resultCode, data)
         }
     }

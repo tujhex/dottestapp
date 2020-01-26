@@ -3,4 +3,6 @@
     <string name="login_button">Sign in by VK</string>
     <string name="greet_text">Hi! This is test app for Dot bnk!\nSign in to continue</string>
     <string name="vk_auth_error">Sign in by VK failed!</string>
+    <string name="open_drawer_description">Open side menu</string>
+    <string name="close_drawer_description">Close side menu</string>
 </resources>

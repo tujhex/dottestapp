@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.android.synthetic.main.app_bar.*
 import org.tujhex.dottestapp.R
 import org.tujhex.dottestapp.core.HasDiComponent
 import org.tujhex.dottestapp.databinding.FragmentLoginBinding
@@ -55,6 +57,14 @@ class LoginFragment : Fragment() {
             vkLoginRouter.attach(activity!!)
             binding.model = ViewModelProvider(activity!!, loginFactory)[LoginViewModel::class.java]
             binding.lifecycleOwner = this
+            if (it is AppCompatActivity) {
+                it.setSupportActionBar(toolbar)
+                it.supportActionBar?.apply {
+                    setDisplayHomeAsUpEnabled(true)
+                    setDisplayShowHomeEnabled(true)
+                    setHomeButtonEnabled(true)
+                }
+            }
         }
     }
 
