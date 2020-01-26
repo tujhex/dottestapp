@@ -3,15 +3,14 @@ package org.tujhex.dottestapp.main
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKAccessToken
-import com.vk.api.sdk.auth.VKAuthCallback
-import com.vk.api.sdk.auth.VKScope
-import org.tujhex.dottestapp.BaseApplication
+import androidx.lifecycle.ViewModelProvider
+import org.tujhex.dottestapp.DotAppComponent
 import org.tujhex.dottestapp.R
-import org.tujhex.dottestapp.navigation.LoginScreen
-import org.tujhex.navigation.Command
-import org.tujhex.navigation.Navigator
+import org.tujhex.dottestapp.core.HasDiComponent
+import org.tujhex.dottestapp.login.model.LoginProviderFactory
+import org.tujhex.dottestapp.login.model.LoginViewModel
+import org.tujhex.dottestapp.main.model.MainProviderFactory
+import org.tujhex.dottestapp.main.model.MainViewModel
 import javax.inject.Inject
 
 /**
@@ -19,16 +18,24 @@ import javax.inject.Inject
  * since 21.01.20
  */
 
-class MainActivity : AppCompatActivity() {
-    @Inject
-    lateinit var navigator: Navigator
-    lateinit var mainComponent: MainComponent
+class MainActivity : AppCompatActivity(), HasDiComponent<MainComponent> {
+    override fun getComponent(): MainComponent = mainComponent
 
+    @Inject
+
+    lateinit var factory: MainProviderFactory
+
+    @Inject
+    lateinit var loginFactory: LoginProviderFactory
+
+    private lateinit var mainComponent: MainComponent
+
+    @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mainComponent = (application as BaseApplication)
-            .appComponent
+        mainComponent = (application as HasDiComponent<DotAppComponent>)
+            .getComponent()
             .plus(
                 NavigationModule(
                     this.supportFragmentManager,
@@ -36,24 +43,18 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         mainComponent.inject(this)
-        navigator.navigate(
-            Command.Forward(
-                LoginScreen()
-            )
-        )
+        ViewModelProvider(this, factory)[MainViewModel::class.java].goToLogin()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val callback = object: VKAuthCallback {
-            override fun onLogin(token: VKAccessToken) {
-                // User passed authorization
-            }
-
-            override fun onLoginFailed(errorCode: Int) {
-                // User didn't pass authorization
-            }
-        }
-        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
+        val isHandled =
+            ViewModelProvider(this, loginFactory)[LoginViewModel::class.java].handleActivityResult(
+                requestCode,
+                resultCode,
+                data
+            )
+        if (!isHandled){
             super.onActivityResult(requestCode, resultCode, data)
         }
     }

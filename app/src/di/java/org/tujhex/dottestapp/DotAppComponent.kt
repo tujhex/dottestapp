@@ -1,6 +1,7 @@
 package org.tujhex.dottestapp
 
 import dagger.Component
+import org.tujhex.dottestapp.core.DiComponent
 import org.tujhex.dottestapp.main.MainComponent
 import org.tujhex.dottestapp.main.NavigationModule
 
@@ -9,6 +10,6 @@ import org.tujhex.dottestapp.main.NavigationModule
  * since 21.01.20
  */
 @Component(modules = [DotAppModule::class])
-interface DotAppComponent {
-    fun plus(navigationModule: NavigationModule):MainComponent
+interface DotAppComponent : DiComponent {
+    fun plus(navigationModule: NavigationModule): MainComponent
 }

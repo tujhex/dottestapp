@@ -3,8 +3,8 @@ package org.tujhex.dottestapp.main
 import androidx.fragment.app.FragmentManager
 import dagger.Module
 import dagger.Provides
+import org.tujhex.dottestapp.login.navigation.VkLoginRouter
 import org.tujhex.navigation.Navigator
-import javax.inject.Singleton
 
 /**
  * @author tujhex
@@ -20,5 +20,11 @@ class NavigationModule(
     @MainScope
     fun provideNavigator(): Navigator {
         return Navigator.Impl(fragmentManager, containerId)
+    }
+
+    @Provides
+    @MainScope
+    fun provideVkRouter(): VkLoginRouter {
+        return VkLoginRouter.Impl()
     }
 }

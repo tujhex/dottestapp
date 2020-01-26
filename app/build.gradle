@@ -32,6 +32,11 @@ android {
             java.srcDirs += ['src/di/java']
         }
     }
+    
+    dataBinding {
+        enabled = true
+    }
+
     buildTypes {
         release {
             minifyEnabled true

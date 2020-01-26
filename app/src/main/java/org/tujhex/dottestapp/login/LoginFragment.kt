@@ -5,12 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKScope
-import kotlinx.android.synthetic.main.fragment_login.*
+import androidx.lifecycle.ViewModelProvider
 import org.tujhex.dottestapp.R
-import org.tujhex.dottestapp.main.MainActivity
+import org.tujhex.dottestapp.core.HasDiComponent
+import org.tujhex.dottestapp.databinding.FragmentLoginBinding
+import org.tujhex.dottestapp.login.model.LoginProviderFactory
+import org.tujhex.dottestapp.login.model.LoginViewModel
+import org.tujhex.dottestapp.login.navigation.VkLoginRouter
+import org.tujhex.dottestapp.main.MainComponent
+import javax.inject.Inject
 
 /**
  * @author tujhex
@@ -18,27 +23,43 @@ import org.tujhex.dottestapp.main.MainActivity
  */
 class LoginFragment : Fragment() {
 
+    @Inject
+    lateinit var vkLoginRouter: VkLoginRouter
+
+    @Inject
+    lateinit var loginFactory: LoginProviderFactory
+
+    private lateinit var binding: FragmentLoginBinding
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        login_button.setOnClickListener { login() }
-    }
-
-    private fun login() {
-        activity?.let {
-            VK.login(it, arrayListOf(VKScope.WALL))
+    @Suppress("UNCHECKED_CAST")
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (activity is HasDiComponent<*>) {
+            (activity as HasDiComponent<MainComponent>).getComponent().plus().inject(this)
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity).mainComponent.plus().inject(this)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        activity?.let {
+            vkLoginRouter.attach(activity!!)
+            binding.model = ViewModelProvider(activity!!, loginFactory)[LoginViewModel::class.java]
+            binding.lifecycleOwner = this
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        vkLoginRouter.detach()
     }
 }

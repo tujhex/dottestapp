@@ -1,4 +1,4 @@
-package org.tujhex.dottestapp.navigation
+package org.tujhex.dottestapp.login.navigation
 
 import androidx.fragment.app.Fragment
 import org.tujhex.dottestapp.login.LoginFragment
