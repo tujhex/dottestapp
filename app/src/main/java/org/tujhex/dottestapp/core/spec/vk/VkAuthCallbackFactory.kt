@@ -3,9 +3,8 @@ package org.tujhex.dottestapp.core.spec.vk
 import com.vk.api.sdk.auth.VKAuthCallback
 import io.reactivex.disposables.CompositeDisposable
 import org.tujhex.dottestapp.core.MessageUtils
-import org.tujhex.dottestapp.domain.vk.cases.token.StoreVkTokenUseCase
-import org.tujhex.dottestapp.core.data.net.vk.VkApiService
-import org.tujhex.dottestapp.domain.vk.cases.profile.RefreshUserProfileUseCase
+import org.tujhex.dottestapp.domain.cases.vk.token.StoreVkTokenUseCase
+import org.tujhex.dottestapp.domain.cases.vk.profile.RefreshUserProfileUseCase
 import org.tujhex.navigation.Navigator
 
 /**

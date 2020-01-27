@@ -17,9 +17,6 @@ import org.tujhex.dottestapp.net.interceptor.InterceptorsModule
 @Module(includes = [InterceptorsModule::class, GsonModule::class])
 class VkApiServiceModule {
 
-    companion object {
-        const val endpoint = "https://api.vk.com"
-    }
 
     @Provides
     @MainScope
@@ -29,7 +26,6 @@ class VkApiServiceModule {
         gson: Gson
     ): VkApiService {
         return VkApiService.Impl(
-            endpoint,
             arrayOf(accessTokenInterceptor, httpLoggingInterceptor),
             gson
         )

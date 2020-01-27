@@ -14,8 +14,11 @@ import org.tujhex.dottestapp.core.data.net.ApiService
 interface VkApiService {
     fun getInfo(ownerId: Int, fields: Array<String>): Single<VkResponse>
 
+    companion object {
+        const val endpoint = "https://api.vk.com"
+    }
 
-    class Impl(endpoint: String, interceptors: Array<Interceptor>, gson: Gson) :
+    class Impl(interceptors: Array<Interceptor>, gson: Gson) :
         ApiService<VkApi>(endpoint, interceptors, gson), VkApiService {
 
         override fun getClazz(): Class<VkApi> = VkApi::class.java
@@ -25,5 +28,6 @@ interface VkApiService {
                 .getProfileInfo(ownerId, fields)
                 .subscribeOn(Schedulers.io())
         }
+
     }
 }

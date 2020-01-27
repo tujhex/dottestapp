@@ -6,8 +6,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import org.tujhex.dottestapp.R
 import org.tujhex.dottestapp.core.MessageUtils
-import org.tujhex.dottestapp.domain.vk.cases.profile.RefreshUserProfileUseCase
-import org.tujhex.dottestapp.domain.vk.cases.token.StoreVkTokenUseCase
+import org.tujhex.dottestapp.domain.cases.vk.profile.RefreshUserProfileUseCase
+import org.tujhex.dottestapp.domain.cases.vk.token.StoreVkTokenUseCase
+import org.tujhex.dottestapp.github.navigation.GithubSearchScreen
+import org.tujhex.navigation.Command
 import org.tujhex.navigation.Navigator
 
 /**
@@ -27,7 +29,15 @@ class VkAuthCallbackImpl(
             .subscribe({
                            refreshUserProfileUseCase
                                .fetchProfile()
-                               .subscribe({}, {})
+                               .observeOn(AndroidSchedulers.mainThread())
+                               .subscribe({
+                                              navigator.navigate(
+                                                  Command.Forward(
+                                                      GithubSearchScreen()
+                                                  )
+                                              )
+                                          },
+                                          { error -> messageUtils.showError(error) })
                                .apply { compositeDisposable.add(this) }
                        }, { error -> messageUtils.showError(error) })
             .apply { compositeDisposable.add(this) }

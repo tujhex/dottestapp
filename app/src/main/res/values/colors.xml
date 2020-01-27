@@ -3,6 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="pink">#ffe5e5</color>
+    <color name="violet">#a8a8ff</color>
     <color name="white">#FFF</color>
     <color name="vk_main">#4c75a3</color>
 </resources>

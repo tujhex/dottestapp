@@ -21,10 +21,15 @@ interface Navigator {
             fragmentManager.executePendingTransactions()
             when (command) {
                 is Command.Forward -> forward(command)
+                is Command.Root -> popBackRoot()
             }
         }
 
-        private fun forward(command: Command) {
+        private fun popBackRoot() {
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
+
+        private fun forward(command: Command.Forward) {
             val screen = command.screen
             fragmentManager
                 .beginTransaction()

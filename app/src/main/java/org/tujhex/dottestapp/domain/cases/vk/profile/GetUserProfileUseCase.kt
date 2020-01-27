@@ -1,4 +1,4 @@
-package org.tujhex.dottestapp.domain.vk.cases.profile
+package org.tujhex.dottestapp.domain.cases.vk.profile
 
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers

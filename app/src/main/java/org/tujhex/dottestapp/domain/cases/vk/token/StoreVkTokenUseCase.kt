@@ -1,4 +1,4 @@
-package org.tujhex.dottestapp.domain.vk.cases.token
+package org.tujhex.dottestapp.domain.cases.vk.token
 
 import com.vk.api.sdk.auth.VKAccessToken
 import io.reactivex.Completable

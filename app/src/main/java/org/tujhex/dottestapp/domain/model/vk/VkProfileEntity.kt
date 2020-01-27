@@ -1,4 +1,4 @@
-package org.tujhex.dottestapp.domain.vk.model
+package org.tujhex.dottestapp.domain.model.vk
 
 import org.tujhex.dottestapp.core.data.dto.vk.VkErrorDto
 import org.tujhex.dottestapp.core.data.dto.vk.VkProfileResponse

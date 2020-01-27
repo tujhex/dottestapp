@@ -7,10 +7,10 @@ import dagger.Reusable
 import org.tujhex.dottestapp.core.data.cache.CacheStorage
 import org.tujhex.dottestapp.core.data.dto.vk.VkProfileResponse
 import org.tujhex.dottestapp.core.data.net.vk.VkApiService
-import org.tujhex.dottestapp.domain.vk.cases.profile.GetUserProfileUseCase
-import org.tujhex.dottestapp.domain.vk.cases.profile.RefreshUserProfileUseCase
-import org.tujhex.dottestapp.domain.vk.cases.token.FetchVkTokenUseCase
-import org.tujhex.dottestapp.domain.vk.cases.token.StoreVkTokenUseCase
+import org.tujhex.dottestapp.domain.cases.vk.profile.GetUserProfileUseCase
+import org.tujhex.dottestapp.domain.cases.vk.profile.RefreshUserProfileUseCase
+import org.tujhex.dottestapp.domain.cases.vk.token.FetchVkTokenUseCase
+import org.tujhex.dottestapp.domain.cases.vk.token.StoreVkTokenUseCase
 
 /**
  * @author tujhex

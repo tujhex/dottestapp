@@ -1,4 +1,4 @@
-package org.tujhex.dottestapp.domain.vk.cases.profile
+package org.tujhex.dottestapp.domain.cases.vk.profile
 
 import com.vk.api.sdk.auth.VKAccessToken
 import io.reactivex.Single
@@ -8,7 +8,7 @@ import org.tujhex.dottestapp.core.data.dto.vk.VkProfileResponse
 import org.tujhex.dottestapp.core.data.dto.vk.VkResponse
 import org.tujhex.dottestapp.core.data.net.vk.VkApiService
 import org.tujhex.dottestapp.core.data.net.vk.json.VkJsonNames
-import org.tujhex.dottestapp.domain.vk.model.VkProfileEntity
+import org.tujhex.dottestapp.domain.model.vk.VkProfileEntity
 
 /**
  * @author tujhex
