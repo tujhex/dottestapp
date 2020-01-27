@@ -9,11 +9,17 @@ import com.vk.api.sdk.auth.VKScope
  * since 26.01.20
  */
 interface VkLoginRouter {
+    fun login()
+
+    fun attach(activity: FragmentActivity?)
+
+    fun detach()
+
     class Impl : VkLoginRouter {
         private var target: FragmentActivity? = null
         override fun login() {
             target?.let {
-                VK.login(it, arrayListOf(VKScope.WALL))
+                VK.login(it, arrayListOf(VKScope.WALL, VKScope.PHOTOS))
             }
         }
 
@@ -25,10 +31,4 @@ interface VkLoginRouter {
             target = null
         }
     }
-
-    fun login()
-
-    fun attach(activity: FragmentActivity?)
-
-    fun detach()
 }

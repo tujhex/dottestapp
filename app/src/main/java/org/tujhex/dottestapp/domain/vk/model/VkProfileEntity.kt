@@ -1,6 +1,6 @@
 package org.tujhex.dottestapp.domain.vk.model
 
-import org.tujhex.dottestapp.core.data.dto.vk.VkError
+import org.tujhex.dottestapp.core.data.dto.vk.VkErrorDto
 import org.tujhex.dottestapp.core.data.dto.vk.VkProfileResponse
 
 /**
@@ -9,5 +9,5 @@ import org.tujhex.dottestapp.core.data.dto.vk.VkProfileResponse
  */
 sealed class VkProfileEntity {
     data class Profile(val dto: VkProfileResponse) : VkProfileEntity()
-    data class Error(val dto: VkError) : VkProfileEntity()
+    data class Error(val dto: VkErrorDto) : VkProfileEntity()
 }

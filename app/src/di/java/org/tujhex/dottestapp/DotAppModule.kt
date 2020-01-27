@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import org.tujhex.dottestapp.core.MessageUtils
+import org.tujhex.dottestapp.core.ui.picasso.ProfileImageLoader
 import javax.inject.Singleton
 
 
@@ -18,6 +19,12 @@ class DotAppModule(private val context: Context) {
     @Singleton
     fun provideMessageUtils(): MessageUtils {
         return MessageUtils.Impl(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProfileImageLoader(): ProfileImageLoader {
+        return ProfileImageLoader.Impl()
     }
 
 }

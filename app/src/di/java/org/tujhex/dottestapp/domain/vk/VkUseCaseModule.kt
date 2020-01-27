@@ -5,7 +5,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import org.tujhex.dottestapp.core.data.cache.CacheStorage
-import org.tujhex.dottestapp.core.data.cache.vk.VkTokenCacheStorage
+import org.tujhex.dottestapp.core.data.dto.vk.VkProfileResponse
+import org.tujhex.dottestapp.core.data.net.vk.VkApiService
+import org.tujhex.dottestapp.domain.vk.cases.profile.GetUserProfileUseCase
+import org.tujhex.dottestapp.domain.vk.cases.profile.RefreshUserProfileUseCase
 import org.tujhex.dottestapp.domain.vk.cases.token.FetchVkTokenUseCase
 import org.tujhex.dottestapp.domain.vk.cases.token.StoreVkTokenUseCase
 
@@ -13,30 +16,36 @@ import org.tujhex.dottestapp.domain.vk.cases.token.StoreVkTokenUseCase
  * @author tujhex
  * since 26.01.20
  */
-@Module
+@Module(includes = [VkCacheModule::class])
 class VkUseCaseModule {
 
-    @Provides
-    @Reusable
-    fun provideVkTokenStorage(): CacheStorage<VKAccessToken> {
-        return CacheStorage.ReactiveImpl(VkTokenCacheStorage.Impl())
-    }
 
     @Provides
     @Reusable
-    fun provideReactiveVkTokenStorage(cacheStorage: CacheStorage<VKAccessToken>): CacheStorage.Reactive<VKAccessToken> {
-        return CacheStorage.ReactiveImpl(cacheStorage)
-    }
-
-    @Provides
-    @Reusable
-    fun provideFetchVkToken(vkTokenCacheStorage: CacheStorage.Reactive<VKAccessToken>): FetchVkTokenUseCase {
+    fun provideFetchVkToken(vkTokenCacheStorage: CacheStorage<VKAccessToken>): FetchVkTokenUseCase {
         return FetchVkTokenUseCase.Impl(vkTokenCacheStorage)
     }
 
     @Provides
     @Reusable
-    fun provideStoreVkToken(vkTokenCacheStorage: CacheStorage.Reactive<VKAccessToken>): StoreVkTokenUseCase {
+    fun provideStoreVkToken(vkTokenCacheStorage: CacheStorage<VKAccessToken>): StoreVkTokenUseCase {
         return StoreVkTokenUseCase.Impl(vkTokenCacheStorage)
     }
+
+    @Provides
+    @Reusable
+    fun provideFetchVkProfileUseCase(
+        vkApiService: VkApiService,
+        cacheStorage: CacheStorage.Reactive<VkProfileResponse>,
+        tokenCacheStorage: CacheStorage<VKAccessToken>
+    ): RefreshUserProfileUseCase {
+        return RefreshUserProfileUseCase.Impl(vkApiService, cacheStorage, tokenCacheStorage)
+    }
+
+    @Provides
+    @Reusable
+    fun provideGetVkProfileUseCase(cacheStorage: CacheStorage.Reactive<VkProfileResponse>): GetUserProfileUseCase {
+        return GetUserProfileUseCase.Impl(cacheStorage)
+    }
+
 }

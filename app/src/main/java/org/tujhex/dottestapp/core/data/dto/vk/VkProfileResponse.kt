@@ -9,5 +9,6 @@ import org.tujhex.dottestapp.core.data.net.vk.json.VkJsonNames
  */
 data class VkProfileResponse(
     @SerializedName(VkJsonNames.profileFirstName) val firstName: String,
-    @SerializedName(VkJsonNames.profileLastName) val lastName: String
+    @SerializedName(VkJsonNames.profileLastName) val lastName: String,
+    @SerializedName(VkJsonNames.userPhoto) val urlPhoto:String
 )

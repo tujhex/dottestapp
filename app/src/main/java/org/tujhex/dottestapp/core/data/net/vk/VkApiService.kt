@@ -12,16 +12,17 @@ import org.tujhex.dottestapp.core.data.net.ApiService
  * since 27.01.20
  */
 interface VkApiService {
-    fun getInfo(): Single<VkResponse>
+    fun getInfo(ownerId: Int, fields: Array<String>): Single<VkResponse>
 
 
     class Impl(endpoint: String, interceptors: Array<Interceptor>, gson: Gson) :
         ApiService<VkApi>(endpoint, interceptors, gson), VkApiService {
+
         override fun getClazz(): Class<VkApi> = VkApi::class.java
 
-        override fun getInfo(): Single<VkResponse> {
+        override fun getInfo(ownerId: Int, fields: Array<String>): Single<VkResponse> {
             return getApi()
-                .getProfileInfo()
+                .getProfileInfo(ownerId, fields)
                 .subscribeOn(Schedulers.io())
         }
     }

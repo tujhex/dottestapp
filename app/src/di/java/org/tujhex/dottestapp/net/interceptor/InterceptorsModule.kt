@@ -17,7 +17,7 @@ import org.tujhex.navigation.BuildConfig
 class InterceptorsModule {
     @Provides
     @MainScope
-    fun provideAccessTokenInterceptor(cacheStorage: CacheStorage.Reactive<VKAccessToken>): AccessTokenInterceptor {
+    fun provideAccessTokenInterceptor(cacheStorage: CacheStorage<VKAccessToken>): AccessTokenInterceptor {
         return AccessTokenInterceptor(cacheStorage)
     }
 

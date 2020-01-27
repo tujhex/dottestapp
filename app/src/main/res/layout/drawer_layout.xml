@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="org.tujhex.dottestapp.main.model.DrawerViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       android:id="@+id/drawer_layout"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:background="@color/vk_main"
+                                                       android:orientation="vertical"
+                                                       android:paddingStart="16dp"
+                                                       android:paddingLeft="16dp"
+                                                       android:paddingTop="48dp"
+                                                       android:paddingEnd="16dp"
+                                                       android:paddingRight="16dp"
+                                                       android:paddingBottom="16dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/vk_profile_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/vk_profile_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:background="@color/white"
+            android:maxHeight="64dp"
+            android:maxWidth="64dp"
+            tools:minHeight="64dp"
+            tools:minWidth="64dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vk_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{model.profileName}"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vk_profile_image"
+            tools:text="John Doe" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

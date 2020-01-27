@@ -5,6 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import org.tujhex.dottestapp.core.MessageUtils
 import org.tujhex.dottestapp.domain.vk.cases.token.StoreVkTokenUseCase
 import org.tujhex.dottestapp.core.data.net.vk.VkApiService
+import org.tujhex.dottestapp.domain.vk.cases.profile.RefreshUserProfileUseCase
 import org.tujhex.navigation.Navigator
 
 /**
@@ -17,7 +18,7 @@ interface VkAuthCallbackFactory {
     class Impl(
         private val navigator: Navigator,
         private val messageUtils: MessageUtils,
-        private val vkApiService: VkApiService,
+        private val refreshUserProfileUseCase: RefreshUserProfileUseCase,
         private val storeVkTokenUseCase: StoreVkTokenUseCase
     ) : VkAuthCallbackFactory {
         override fun create(compositeDisposable: CompositeDisposable): VKAuthCallback {
@@ -25,7 +26,7 @@ interface VkAuthCallbackFactory {
                 messageUtils,
                 navigator,
                 storeVkTokenUseCase,
-                vkApiService,
+                refreshUserProfileUseCase,
                 compositeDisposable
             )
         }

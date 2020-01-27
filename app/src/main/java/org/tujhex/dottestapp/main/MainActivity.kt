@@ -7,16 +7,22 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.drawer_layout.*
 import org.tujhex.dottestapp.DotAppComponent
 import org.tujhex.dottestapp.R
 import org.tujhex.dottestapp.core.HasDiComponent
 import org.tujhex.dottestapp.core.ui.HasChangeableToolbar
 import org.tujhex.dottestapp.core.ui.HasDrawer
+import org.tujhex.dottestapp.core.ui.picasso.ProfileImageLoader
+import org.tujhex.dottestapp.databinding.DrawerLayoutBinding
 import org.tujhex.dottestapp.login.model.LoginProviderFactory
 import org.tujhex.dottestapp.login.model.LoginViewModel
+import org.tujhex.dottestapp.main.model.DrawerViewModel
 import org.tujhex.dottestapp.main.model.MainProviderFactory
 import org.tujhex.dottestapp.main.model.MainViewModel
 import javax.inject.Inject
@@ -32,11 +38,12 @@ class MainActivity : AppCompatActivity(), HasDiComponent<MainComponent>, HasDraw
     override fun getComponent(): MainComponent = mainComponent
 
     @Inject
-
     lateinit var factory: MainProviderFactory
 
     @Inject
     lateinit var loginFactory: LoginProviderFactory
+    @Inject
+    lateinit var imageLoader: ProfileImageLoader
 
     private lateinit var mainComponent: MainComponent
     lateinit var toggle: ActionBarDrawerToggle
@@ -53,6 +60,7 @@ class MainActivity : AppCompatActivity(), HasDiComponent<MainComponent>, HasDraw
                     R.id.container
                 )
             )
+
         mainComponent.inject(this)
         ViewModelProvider(this, factory)[MainViewModel::class.java].goToLogin()
         toggle = ActionBarDrawerToggle(
@@ -63,6 +71,22 @@ class MainActivity : AppCompatActivity(), HasDiComponent<MainComponent>, HasDraw
         )
         toggle.syncState()
         drawer.addDrawerListener(toggle)
+        setupDrawer()
+    }
+
+    private fun setupDrawer() {
+        val drawerLayoutBinding = DataBindingUtil.bind<DrawerLayoutBinding>(drawer_layout)
+        val drawerViewModel = ViewModelProvider(this, factory)[DrawerViewModel::class.java]
+        drawerLayoutBinding?.model = drawerViewModel
+        drawerLayoutBinding?.lifecycleOwner = this
+        drawerViewModel.profileImageUrl.observe(
+            this,
+            Observer<CharSequence> { url ->
+                imageLoader.loadImage(
+                    url.toString(),
+                    vk_profile_image
+                )
+            })
     }
 
     override fun onBackPressed() {

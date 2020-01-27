@@ -1,7 +1,11 @@
 package org.tujhex.dottestapp.core.data.cache
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.Subject
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
+import kotlin.concurrent.write
 
 /**
  * @author tujhex
@@ -12,27 +16,47 @@ interface CacheStorage<T> {
     fun store(data: T)
 
     interface Reactive<T> : CacheStorage<T> {
-        fun fetchReactive(): LiveData<T>
+        fun fetchReactive(): Observable<T>
+    }
+
+    class Impl<T> : CacheStorage<T> {
+        private val lock = ReentrantReadWriteLock()
+        private var tokenCache: T? = null
+
+        override fun store(data: T) {
+            lock.write { tokenCache = data }
+        }
+
+        override fun fetch(): T? {
+            return lock.read { tokenCache }
+        }
+
     }
 
     class ReactiveImpl<T>(private val cacheStorage: CacheStorage<T>) :
         Reactive<T>, CacheStorage<T> by cacheStorage {
-        private var reactive: MutableLiveData<T>? = null
-        override fun fetchReactive(): LiveData<T> {
+        private var reactive: Subject<T>? = null
+
+        override fun fetchReactive(): Observable<T> {
             checkReactive()
             return reactive!!
         }
 
-        private fun checkReactive() {
-            if (reactive == null) {
-                reactive = MutableLiveData<T>().apply { value = fetch() }
+        private fun checkReactive(): Boolean {
+            synchronized(this.javaClass) {
+                if (reactive == null) {
+                    reactive = BehaviorSubject.create<T>().apply { fetch()?.let { onNext(it) } }
+                    return true
+                }
+                return false
             }
         }
 
         override fun store(data: T) {
-            checkReactive()
             cacheStorage.store(data)
-            reactive?.value = data
+            if (!checkReactive()) {
+                reactive?.onNext(data)
+            }
         }
     }
 }
