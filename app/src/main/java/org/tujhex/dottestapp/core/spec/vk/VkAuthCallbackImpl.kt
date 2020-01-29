@@ -8,6 +8,7 @@ import org.tujhex.dottestapp.R
 import org.tujhex.dottestapp.core.MessageUtils
 import org.tujhex.dottestapp.domain.cases.vk.profile.RefreshUserProfileUseCase
 import org.tujhex.dottestapp.domain.cases.vk.token.StoreVkTokenUseCase
+import org.tujhex.dottestapp.domain.cases.vk.token.model.AuthToken
 import org.tujhex.dottestapp.github.navigation.GithubSearchScreen
 import org.tujhex.navigation.Command
 import org.tujhex.navigation.Navigator
@@ -24,7 +25,7 @@ class VkAuthCallbackImpl(
     private val compositeDisposable: CompositeDisposable
 ) : VKAuthCallback {
     override fun onLogin(token: VKAccessToken) {
-        storeVkTokenUseCase.storeToken(token)
+        storeVkTokenUseCase.storeToken(AuthToken.Vk(token))
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                            refreshUserProfileUseCase

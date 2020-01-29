@@ -1,6 +1,5 @@
 package org.tujhex.dottestapp.domain.vk
 
-import com.vk.api.sdk.auth.VKAccessToken
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -11,6 +10,7 @@ import org.tujhex.dottestapp.domain.cases.vk.profile.GetUserProfileUseCase
 import org.tujhex.dottestapp.domain.cases.vk.profile.RefreshUserProfileUseCase
 import org.tujhex.dottestapp.domain.cases.vk.token.FetchVkTokenUseCase
 import org.tujhex.dottestapp.domain.cases.vk.token.StoreVkTokenUseCase
+import org.tujhex.dottestapp.domain.cases.vk.token.model.AuthToken
 
 /**
  * @author tujhex
@@ -22,13 +22,13 @@ class VkUseCaseModule {
 
     @Provides
     @Reusable
-    fun provideFetchVkToken(vkTokenCacheStorage: CacheStorage<VKAccessToken>): FetchVkTokenUseCase {
+    fun provideFetchVkToken(vkTokenCacheStorage: CacheStorage<AuthToken>): FetchVkTokenUseCase {
         return FetchVkTokenUseCase.Impl(vkTokenCacheStorage)
     }
 
     @Provides
     @Reusable
-    fun provideStoreVkToken(vkTokenCacheStorage: CacheStorage<VKAccessToken>): StoreVkTokenUseCase {
+    fun provideStoreVkToken(vkTokenCacheStorage: CacheStorage<AuthToken>): StoreVkTokenUseCase {
         return StoreVkTokenUseCase.Impl(vkTokenCacheStorage)
     }
 
@@ -37,9 +37,9 @@ class VkUseCaseModule {
     fun provideFetchVkProfileUseCase(
         vkApiService: VkApiService,
         cacheStorage: CacheStorage.Reactive<VkProfileResponse>,
-        tokenCacheStorage: CacheStorage<VKAccessToken>
+        fetchVkTokenUseCase: FetchVkTokenUseCase
     ): RefreshUserProfileUseCase {
-        return RefreshUserProfileUseCase.Impl(vkApiService, cacheStorage, tokenCacheStorage)
+        return RefreshUserProfileUseCase.Impl(vkApiService, cacheStorage, fetchVkTokenUseCase)
     }
 
     @Provides

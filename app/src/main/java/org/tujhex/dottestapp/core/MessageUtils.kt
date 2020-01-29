@@ -1,6 +1,7 @@
 package org.tujhex.dottestapp.core
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 
 /**
@@ -15,6 +16,7 @@ interface MessageUtils {
 
     class Impl(private val context: Context) : MessageUtils {
         override fun showError(error: Throwable) {
+            Log.e("MessageUtils", error.localizedMessage, error)
             error.localizedMessage
                 ?.let { showMessage(it) }
                 ?: error.message

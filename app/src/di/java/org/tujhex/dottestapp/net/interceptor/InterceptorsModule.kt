@@ -6,6 +6,7 @@ import dagger.Provides
 import okhttp3.logging.HttpLoggingInterceptor
 import org.tujhex.dottestapp.core.data.cache.CacheStorage
 import org.tujhex.dottestapp.core.net.interceptor.AccessTokenInterceptor
+import org.tujhex.dottestapp.domain.cases.vk.token.model.AuthToken
 import org.tujhex.dottestapp.main.MainScope
 import org.tujhex.navigation.BuildConfig
 
@@ -17,7 +18,7 @@ import org.tujhex.navigation.BuildConfig
 class InterceptorsModule {
     @Provides
     @MainScope
-    fun provideAccessTokenInterceptor(cacheStorage: CacheStorage<VKAccessToken>): AccessTokenInterceptor {
+    fun provideAccessTokenInterceptor(cacheStorage: CacheStorage<AuthToken>): AccessTokenInterceptor {
         return AccessTokenInterceptor(cacheStorage)
     }
 

@@ -1,11 +1,11 @@
 package org.tujhex.dottestapp.domain.vk
 
-import com.vk.api.sdk.auth.VKAccessToken
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import org.tujhex.dottestapp.core.data.cache.CacheStorage
 import org.tujhex.dottestapp.core.data.dto.vk.VkProfileResponse
+import org.tujhex.dottestapp.domain.cases.vk.token.model.AuthToken
 
 /**
  * @author tujhex
@@ -15,7 +15,7 @@ import org.tujhex.dottestapp.core.data.dto.vk.VkProfileResponse
 class VkCacheModule {
     @Provides
     @Reusable
-    fun provideVkTokenStorage(): CacheStorage<VKAccessToken> {
+    fun provideVkTokenStorage(): CacheStorage<AuthToken> {
         return CacheStorage.ReactiveImpl(CacheStorage.Impl())
     }
 

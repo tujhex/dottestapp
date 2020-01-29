@@ -4,7 +4,9 @@ import dagger.Module
 import dagger.Provides
 import org.tujhex.dottestapp.core.MessageUtils
 import org.tujhex.dottestapp.core.spec.vk.VkAuthCallbackFactory
+import org.tujhex.dottestapp.data.net.github.GithubApiServiceModule
 import org.tujhex.dottestapp.data.net.vk.VkApiServiceModule
+import org.tujhex.dottestapp.domain.cases.github.GithubSearchUserUseCase
 import org.tujhex.dottestapp.domain.cases.vk.profile.GetUserProfileUseCase
 import org.tujhex.dottestapp.domain.cases.vk.profile.RefreshUserProfileUseCase
 import org.tujhex.dottestapp.domain.cases.vk.token.StoreVkTokenUseCase
@@ -19,7 +21,7 @@ import org.tujhex.navigation.Navigator
  *
  * FIXME: dep-s should be provided by interface ViewModelProvider.Factory, but I encounter some error with @Named qualifier
  */
-@Module(includes = [VkApiServiceModule::class])
+@Module(includes = [VkApiServiceModule::class, GithubApiServiceModule::class])
 class MainModule {
 
 
@@ -28,9 +30,15 @@ class MainModule {
     fun provideMainProviderFactory(
         navigator: Navigator,
         messageUtils: MessageUtils,
-        getUserProfileUseCase: GetUserProfileUseCase
+        getUserProfileUseCase: GetUserProfileUseCase,
+        githubSearchUserUseCase: GithubSearchUserUseCase
     ): MainProviderFactory {
-        return MainProviderFactory(navigator, messageUtils, getUserProfileUseCase)
+        return MainProviderFactory(
+            navigator,
+            messageUtils,
+            getUserProfileUseCase,
+            githubSearchUserUseCase
+        )
     }
 
     @MainScope
@@ -57,4 +65,5 @@ class MainModule {
     ): LoginProviderFactory {
         return LoginProviderFactory(vkLoginRouter, callbackFactory)
     }
+
 }
